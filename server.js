@@ -15,44 +15,24 @@ const quotes = require("./quotes.json");
 //   /quotes            - Should return all quotes (json)
 //   /quotes/random     - Should return ONE quote (json)
 app.get("/", function (request, response) {
-  response.send("<h1>Hello there! welcome to my quote server Api</h1>");
+  response.send("<h1>Hi there! my name is Rabie, welcome to my quote server Api</h1>");
 });
 
 //START OF YOUR CODE...
+// a route to get all quotes
 app.get("/quotes", function (request, response) {
   response.send(quotes);
+}); 
+
+// route to receive a random quote
+app.get("/quotes/random", function (request, response){
+  const randomQuoteGenerator = quotes[lodash.random(quotes.length - 1)];
+  response.send(randomQuoteGenerator); 
 });
 
-app.get("/quotes/random", function (request, response) {
-  const randomQuote = quotes[lodash.random(quotes.length - 1)];
-  response.send(randomQuote);
-});
 
-app.get(`/quotes/search`, function (request, response) {
-  const term = request.query.term;
-  const filteredQuotes = quotes.filter(
-    (quote) =>
-      quote.author.toLowerCase().includes(term.toLowerCase()) ||
-      quote.quote.toLowerCase().includes(term.toLowerCase())
-  );
-  response.send(filteredQuotes);
-});
-
-app.get("/echo", function (request, response) {
-  const word = request.query.word;
-  response.send(`you said ${word}`);
-});
 
 //...END OF YOUR CODE
-
-//You can use this function to pick one element at random from a given array
-//example: pickFromArray([1,2,3,4]), or
-//example: pickFromArray(myContactsArray)
-//
-
-// function pickFromArray(arr) {
-//   return arr[Math.floor(Math.random() * arr.length)];
-// }
 
 //Start our server so that it listens for HTTP requests!
 const listener = app.listen(process.env.PORT || 3000, "localhost", function () {
